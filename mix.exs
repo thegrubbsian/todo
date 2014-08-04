@@ -1,0 +1,29 @@
+defmodule Todo.Mixfile do
+  use Mix.Project
+
+  def project do
+    [ app: :todo,
+      version: "0.0.1",
+      elixir: "~> 0.15.0",
+      elixirc_paths: ["lib", "web"],
+      deps: deps ]
+  end
+
+  def application do
+    [
+      mod: { Todo, [] },
+      applications: [:phoenix, :postgrex, :ecto]
+    ]
+  end
+
+  defp deps do
+    [
+      {:ecto, "~> 0.2.3"},
+      {:jsex, "~> 2.0.0"},
+      {:cowboy, "~> 1.0.0"},
+      {:phoenix, github: "phoenixframework/phoenix"},
+      {:phoenix_haml, "~> 0.0.2"},
+      {:postgrex, "~> 0.5.4"}
+    ]
+  end
+end

@@ -1,0 +1,15 @@
+{
+  "name": "elixir-todo",
+  "version": "0.0.1",
+  "description": "Todo MVC example with an Elixir back-end and realtime collaboration.",
+  "repository": "git@github.com:thegrubbsian/elixir-todo.git",
+  "dependencies": {
+    "gulp": "3.8.6",
+    "gulp-concat": "2.3.4",
+    "gulp-filter": "1.0.0",
+    "gulp-react": "0.5.0",
+    "gulp-sass": "0.7.2",
+    "gulp-uglify": "0.3.1",
+    "gulp-watch": "0.6.9"
+  }
+}
