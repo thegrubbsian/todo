@@ -22,7 +22,6 @@ defmodule Todo.Mixfile do
       {:jsex, "~> 2.0.0"},
       {:cowboy, "~> 1.0.0"},
       {:phoenix, github: "phoenixframework/phoenix"},
-      {:phoenix_haml, "~> 0.0.2"},
       {:postgrex, "~> 0.5.4"}
     ]
   end
