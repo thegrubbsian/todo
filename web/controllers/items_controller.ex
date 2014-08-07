@@ -3,6 +3,7 @@ defmodule Todo.ItemsController do
   import Ecto.Query
 
   def index(conn, _params) do
+    IO.puts("index")
     items = Repo.all(from item in TodoItem, select: item)
     { :ok, items_json } = JSEX.encode(items)
     json conn, items_json
