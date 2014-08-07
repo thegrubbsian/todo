@@ -12,7 +12,7 @@ defmodule Todo.Mixfile do
   def application do
     [
       mod: { Todo, [] },
-      applications: [:poolboy, :phoenix, :postgrex, :decimal, :ecto]
+      applications: [:poolboy, :ranch, :phoenix, :postgrex, :decimal, :ecto]
     ]
   end
 
@@ -24,6 +24,7 @@ defmodule Todo.Mixfile do
       {:ecto, "~> 0.2.3"},
       {:jsex, "~> 2.0.0"},
       {:cowboy, "~> 1.0.0"},
+      {:ranch, "~> 1.0.0"},
       {:phoenix, github: "phoenixframework/phoenix"}
     ]
   end
