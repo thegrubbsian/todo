@@ -18,6 +18,7 @@ defmodule Todo.Mixfile do
 
   defp deps do
     [
+      {:decimal, "~> 0.2.3", optional: true},
       {:postgrex, "~> 0.5.4"},
       {:ecto, "~> 0.2.3"},
       {:jsex, "~> 2.0.0"},
