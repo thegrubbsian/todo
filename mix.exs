@@ -12,13 +12,12 @@ defmodule Todo.Mixfile do
   def application do
     [
       mod: { Todo, [] },
-      applications: [:phoenix, :postgrex, :decimal, :ecto]
+      applications: [:poolboy, :phoenix, :postgrex, :decimal, :ecto]
     ]
   end
 
   defp deps do
     [
-      {:decimal, "~> 0.2.3", optional: true},
       {:postgrex, "~> 0.5.4"},
       {:ecto, "~> 0.2.3"},
       {:jsex, "~> 2.0.0"},
