@@ -7,8 +7,7 @@ var app = app || {};
 		defaults: function() {
       return {
         title: "",
-        completed: false,
-        guid: _.times(6, function() { return _.random(1000,9999); }).join("-")
+        completed: false
       };
 		},
 

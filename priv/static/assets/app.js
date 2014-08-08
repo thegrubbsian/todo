@@ -31357,8 +31357,7 @@ var app = app || {};
 		defaults: function() {
       return {
         title: "",
-        completed: false,
-        guid: _.times(6, function() { return _.random(1000,9999); }).join("-")
+        completed: false
       };
 		},
 
@@ -31409,31 +31408,33 @@ var app = app || {};
   var LiveUpdater = function(todos) {
 
     var socket = new Phoenix.Socket("ws://" + location.host +  "/ws");
+    var identifier = _.times(6, function() { return _.random(1000,9999); }).join("-");
 
-    socket.join("todo_items", "todo_items", {}, function(channel) {
+    socket.join("todo_items", "todo_items", identifier, function(channel) {
       channel.on("todo:created", handleTodoCreated);
       channel.on("todo:updated", handleTodoUpdated);
       channel.on("todo:deleted", handleTodoDeleted);
     });
 
-    function handleTodoCreated(todo) {
-      todo = JSON.parse(todo);
-      if (!todos.findWhere({ guid: todo.guid })) { todos.add(todo); }
+    function handleTodoCreated(data) {
+      if (data.identifier == identifier) { return; }
+      todos.add(data.data);
     }
 
     function handleTodoUpdated(todo) {
-      todo = JSON.parse(todo);
-      var existing = todos.get(todo.id);
-      existing.set(todo);
+      if (data.identifier == identifier) { return; }
+      var existing = todos.get(data.data.id);
+      existing.set(data.todo);
     }
 
     function handleTodoDeleted(todo) {
-      todo = JSON.parse(todo);
-      todos.remove(todos.get(todo.id));
+      if (data.identifier == identifier) { return; }
+      todos.remove(todos.get(data.data.id));
     }
 
     return {
-      socket: socket
+      socket: socket,
+      identifier: identifier
     };
   };
 
