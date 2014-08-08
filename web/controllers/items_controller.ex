@@ -11,26 +11,27 @@ defmodule Todo.ItemsController do
   def create(conn, params) do
     item = Repo.insert(%TodoItem{ guid: params["guid"],
       title: params["title"], completed: params["completed"] })
-    item_json = JSON.enclde!(item)
-    Phoenix.Topic.broadcast("todos", { "todo:created", item_json })
-    json conn, item_json
+    broadcast("todo:created", item)
+    json conn, JSON.encode!(item)
   end
 
   def update(conn, params) do
     item = Repo.get(TodoItem, params["id"])
     updated_item = %{item | title: params["title"], completed: params["completed"]}
     Repo.update(updated_item)
-    item_json = JSON.encode!(updated_item)
-    Phoenix.Topic.broadcast("todos", { "todo:updated", item_json })
-    json conn, item_json
+    broadcast("todo:updated", updated_item)
+    json conn, JSON.encode!(updated_item)
   end
 
   def delete(conn, params) do
     item = Repo.get(TodoItem, params["id"])
     Repo.delete(item)
-    item_json = JSON.encode!(item)
-    Phoenix.Topic.broadcast("todos", { "todo:deleted", item_json })
-    json conn, item_json
+    broadcast("todo:deleted", item)
+    json conn, JSON.encode!(item)
+  end
+
+  def broadcast(event, data) do
+    Phoenix.Topic.broadcast("todos", { event, JSON.encode!(data) })
   end
 
 end
