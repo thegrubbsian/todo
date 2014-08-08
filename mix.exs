@@ -22,7 +22,6 @@ defmodule Todo.Mixfile do
       {:decimal, "~> 0.2.4"},
       {:postgrex, "~> 0.5.4"},
       {:ecto, "~> 0.2.3"},
-      {:jsex, "~> 2.0.0"},
       {:cowboy, "~> 1.0.0", github: "extend/cowboy", override: true},
       {:ranch, "~> 1.0.0", github: "ninenines/ranch", ref: "1.0.0"},
       {:phoenix, github: "phoenixframework/phoenix"}
