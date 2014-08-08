@@ -1,5 +1,6 @@
 defmodule Todo.ItemsController do
   use Phoenix.Controller
+  use Jazz
   import Ecto.Query
 
   def index(conn, _params) do
