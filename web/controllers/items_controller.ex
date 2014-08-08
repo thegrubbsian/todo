@@ -4,8 +4,8 @@ defmodule Todo.ItemsController do
 
   def index(conn, _params) do
     items = Repo.all(from item in TodoItem, select: item)
-    IO.puts("AFTER DB CALL")
     { :ok, items_json } = JSEX.encode(items)
+    IO.puts("AFTER JSEX CALL")
     json conn, items_json
   end
 
