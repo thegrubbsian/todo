@@ -11,5 +11,5 @@ defmodule Todo.Router do
   put "/todos/:id", Todo.ItemsController, :update
   delete "/todos/:id", Todo.ItemsController, :delete
 
-  channel "todo_items", Todo.ItemsChannel
+  channel "todos", Todo.ItemsChannel
 end
