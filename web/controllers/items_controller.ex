@@ -1,6 +1,6 @@
 defmodule Todo.ItemsController do
   use Phoenix.Controller
-  alias Phoenix.Channel
+  alias Phoenix.Topic
   import Ecto.Query
   use Jazz
 
@@ -11,7 +11,7 @@ defmodule Todo.ItemsController do
 
   def create(conn, params) do
     item = Repo.insert(%TodoItem{ title: params["title"], completed: params["completed"] })
-    Channel.broadcast("todos", "public", "todo:created", item)
+    Topic.broadcast("todo-events", { "todo:created", item, user_id(conn) })
     json conn, JSON.encode!(item)
   end
 
@@ -19,15 +19,19 @@ defmodule Todo.ItemsController do
     item = Repo.get(TodoItem, params["id"])
     updated_item = %{item | title: params["title"], completed: params["completed"]}
     Repo.update(updated_item)
-    Channel.broadcast("todos", "public", "todo:updated", updated_item)
+    Topic.broadcast("todo-events", { "todo:updated", updated_item, user_id(conn) })
     json conn, JSON.encode!(updated_item)
   end
 
   def delete(conn, params) do
     item = Repo.get(TodoItem, params["id"])
     Repo.delete(item)
-    Channel.broadcast("todos", "public", "todo:deleted", item)
+    Topic.broadcast("todo-events", { "todo:deleted", item, user_id(conn) })
     json conn, JSON.encode!(item)
+  end
+
+  def user_id(conn) do
+    Plug.Conn.get_req_header(conn, "userid")
   end
 
 end

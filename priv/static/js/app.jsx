@@ -6,6 +6,16 @@ var app = app || {};
 	app.ALL_TODOS = 'all';
 	app.ACTIVE_TODOS = 'active';
 	app.COMPLETED_TODOS = 'completed';
+  app.userId = _.times(4, function() { return _.random(1000,9999); }).join("-");
+
+  $.ajaxSetup({
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader("UserId", app.userId);
+    }
+  });
+
+  app.liveUpdater.initialize(app.todos, app.userId);
+
 	var TodoFooter = app.TodoFooter;
 	var TodoItem = app.TodoItem;
 

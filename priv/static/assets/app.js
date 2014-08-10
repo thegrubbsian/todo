@@ -31405,15 +31405,21 @@ var app = app || {};
 (function() {
   "use strict";
 
-  var LiveUpdater = function(todos) {
+  var LiveUpdater = function() {
 
     var socket = new Phoenix.Socket("ws://" + location.host +  "/ws");
+    var todos;
 
-    socket.join("todos", "public", {}, function(channel) {
+    function initialize(collection, userId) {
+      todos = collection;
+      socket.join("todos", "public", { user_id: userId }, setupSocketEvents);
+    }
+
+    function setupSocketEvents(channel) {
       channel.on("todo:created", handleTodoCreated);
       channel.on("todo:updated", handleTodoUpdated);
       channel.on("todo:deleted", handleTodoDeleted);
-    });
+    }
 
     function handleTodoCreated(todo) {
       todos.add(todo);
@@ -31429,11 +31435,12 @@ var app = app || {};
     }
 
     return {
-      socket: socket
+      socket: socket,
+      initialize: initialize
     };
   };
 
-  app.liveUpdater = new LiveUpdater(app.todos);
+  app.liveUpdater = new LiveUpdater();
 })();
 
 /**
@@ -31603,6 +31610,16 @@ var app = app || {};
 	app.ALL_TODOS = 'all';
 	app.ACTIVE_TODOS = 'active';
 	app.COMPLETED_TODOS = 'completed';
+  app.userId = _.times(4, function() { return _.random(1000,9999); }).join("-");
+
+  $.ajaxSetup({
+    beforeSend: function (xhr) {
+      xhr.setRequestHeader("UserId", app.userId);
+    }
+  });
+
+  app.liveUpdater.initialize(app.todos, app.userId);
+
 	var TodoFooter = app.TodoFooter;
 	var TodoItem = app.TodoItem;
 
