@@ -6,7 +6,7 @@ defmodule Todo.ItemsChannel do
   def join(socket, "public", data) do
     socket = Socket.assign(socket, :user_id, data["user_id"])
     handler = spawn_link(fn -> publisher(socket) end)
-    Topic.subscribe(handler, "todo-events")
+    Topic.subscribe(handler, "todos")
     { :ok, socket }
   end
 

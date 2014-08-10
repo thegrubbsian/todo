@@ -9,19 +9,24 @@ var app = app || {};
     url: "/todos",
 
 		completed: function () {
-			return this.where({completed: true});
+			return this.where({ completed: true });
 		},
 
 		remaining: function () {
-			return this.where({completed: false});
+			return this.where({ completed: false });
 		},
 
-    // TODO: Get rid of this
 		nextOrder: function () {
-			return this.length ? this.last().get("order") + 1 : 1;
+      return (this.pluck("order_index").sort().reverse()[0] || 0) + 1;
 		},
 
-		comparator: "order"
+		comparator: function(item_a, item_b) {
+      var order_a = item_a.get("order_index") || 0;
+      var order_b = item_b.get("order_index") || 0;
+      if (order_a > order_b) { return -1; }
+      if (order_a == order_b) { return 0; }
+      if (order_a < order_b) { return 1; }
+    }
 	});
 
 	app.todos = new Todos();

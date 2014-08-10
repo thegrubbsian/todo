@@ -10,8 +10,12 @@ defmodule Todo.ItemsController do
   end
 
   def create(conn, params) do
-    item = Repo.insert(%TodoItem{ title: params["title"], completed: params["completed"] })
-    Topic.broadcast("todo-events", { "todo:created", item, user_id(conn) })
+    item = Repo.insert(%TodoItem{
+      title: params["title"],
+      completed: params["completed"],
+      order_index: params["order_index"]
+    })
+    Topic.broadcast("todos", { "todo:created", item, user_id(conn) })
     json conn, JSON.encode!(item)
   end
 
@@ -19,14 +23,14 @@ defmodule Todo.ItemsController do
     item = Repo.get(TodoItem, params["id"])
     updated_item = %{item | title: params["title"], completed: params["completed"]}
     Repo.update(updated_item)
-    Topic.broadcast("todo-events", { "todo:updated", updated_item, user_id(conn) })
+    Topic.broadcast("todos", { "todo:updated", updated_item, user_id(conn) })
     json conn, JSON.encode!(updated_item)
   end
 
   def delete(conn, params) do
     item = Repo.get(TodoItem, params["id"])
     Repo.delete(item)
-    Topic.broadcast("todo-events", { "todo:deleted", item, user_id(conn) })
+    Topic.broadcast("todos", { "todo:deleted", item, user_id(conn) })
     json conn, JSON.encode!(item)
   end
 

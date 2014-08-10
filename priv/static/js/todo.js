@@ -7,7 +7,8 @@ var app = app || {};
 		defaults: function() {
       return {
         title: "",
-        completed: false
+        completed: false,
+        order_index: 0
       };
 		},
 

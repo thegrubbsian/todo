@@ -4,6 +4,7 @@ defmodule TodoItem do
   schema "todo_items" do
     field :title
     field :completed, :boolean
+    field :order_index, :integer
   end
 
 end
