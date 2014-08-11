@@ -1,6 +1,5 @@
 defmodule Todo.ItemsChannel do
   use Phoenix.Channel
-  import Phoenix.Socket
   alias Phoenix.Topic
   alias Phoenix.Socket
 
