@@ -35,7 +35,7 @@ defmodule Todo.ItemsController do
   end
 
   def user_id(conn) do
-    Plug.Conn.get_req_header(conn, "userid")
+    "#{Plug.Conn.get_req_header(conn, "userid")}"
   end
 
 end

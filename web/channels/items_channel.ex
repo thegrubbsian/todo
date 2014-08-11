@@ -1,5 +1,6 @@
 defmodule Todo.ItemsChannel do
   use Phoenix.Channel
+  import Phoenix.Socket
   alias Phoenix.Topic
   alias Phoenix.Socket
 
@@ -11,12 +12,10 @@ defmodule Todo.ItemsChannel do
   end
 
   def publisher(socket) do
+    user_id = "#{Socket.get_assign(socket, :user_id)}"
     receive do
-      { event, data, user_id } ->
-        socket_user_id = Socket.get_assign(socket, :user_id)
-        if "#{socket_user_id}" == "#{user_id}" do
-          broadcast_from(socket, event, data)
-        end
+      { event, data, ^user_id } ->
+        broadcast_from(socket, event, data)
       publisher(socket)
     end
   end
