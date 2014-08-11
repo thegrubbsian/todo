@@ -4,18 +4,16 @@ defmodule Todo.ItemsChannel do
   alias Phoenix.Socket
 
   def join(socket, "public", data) do
-    socket = Socket.assign(socket, :user_id, data["user_id"])
-    handler = spawn_link(fn -> publisher(socket) end)
+    handler = spawn_link(fn -> publisher(socket, data["user_id"]) end)
     Topic.subscribe(handler, "todos")
     { :ok, socket }
   end
 
-  def publisher(socket) do
-    user_id = "#{Socket.get_assign(socket, :user_id)}"
+  def publisher(socket, user_id) do
     receive do
       { event, data, ^user_id } ->
         broadcast_from(socket, event, data)
-      publisher(socket)
+      publisher(socket, user_id)
     end
   end
 
