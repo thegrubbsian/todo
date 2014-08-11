@@ -5,3 +5,4 @@ erl_crash.dump
 **/*/.DS_Store
 /bower_components
 /node_modules
+scratch.ex*
