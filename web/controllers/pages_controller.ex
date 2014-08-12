@@ -4,4 +4,8 @@ defmodule Todo.PagesController do
   def index(conn, _params) do
     render conn, "index"
   end
+
+  def todo_list(conn, _params) do
+    render conn, "todos"
+  end
 end
